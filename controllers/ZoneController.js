@@ -22,6 +22,15 @@ module.exports = {
   },
 
   create: (params, callback) => {
+    const zips = params['zipCodes'];
+    const zip = zips.split(',');
+    const newZips = [];
+    zip.forEach((zipCode) => {
+      newZips.push(zipCode.trim());
+    });
+
+    params['zipCodes'] = newZips;
+
     Zone.create(params, (err, zone) => {
       if (err) {
         callback(err, null);

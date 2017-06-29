@@ -26,6 +26,7 @@ router.get('/:resource', (req, res, next) => {
 router.get('/:resource/:id', (req, res, next) => {
   const resource = req.params.resource;
   const id = req.params.id;
+  console.log(id)
 
   if (resource === 'zone') {
     ZoneController.findById(id, (err, result) => {
@@ -33,6 +34,27 @@ router.get('/:resource/:id', (req, res, next) => {
         res.json({
           confirmation: 'fail',
           message: 'Not found'
+        });
+        return
+      }
+
+      res.json({
+        confirmation: 'success',
+        results: result
+      });
+    });
+  }
+});
+
+router.post('/:resource', (req, res, next) => {
+  const resource = req.params.resource;
+
+  if (resource === 'zone') {
+    ZoneController.create(req.body, (err, result) => {
+      if (err) {
+        res.json({
+          confirmation: 'fail',
+          message: err
         });
         return
       }
