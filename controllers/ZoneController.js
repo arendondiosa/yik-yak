@@ -11,12 +11,24 @@ module.exports = {
     });
   },
 
-  findById: () => {
-
+  findById: (id, callback) => {
+    Zone.find(id, (err, zone) => {
+      if (err) {
+        callback(err, null);
+        return
+      }
+      callback(null, zone);
+    });
   },
 
-  create: () => {
-
+  create: (params, callback) => {
+    Zone.create(params, (err, zone) => {
+      if (err) {
+        callback(err, null);
+        return
+      }
+      callback(null, zone);
+    });
   },
 
   update: () => {
