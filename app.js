@@ -4,12 +4,22 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const dbUrl = 'mongodb://localhost/yik-yak';
+mongoose.connect(dbUrl, (err, res) => {
+  if (err) {
+    console.log('DB CONNECTION FAILED ' + err);
+  } else {
+    console.log('DB CONNECTION SUCESS ' + dbUrl);
+  }
+});
 
 const index = require('./routes/index');
 const api = require('./routes/api');
 const users = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
