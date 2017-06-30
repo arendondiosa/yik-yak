@@ -1,13 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const ZoneController = require('../controllers/ZoneController');
+const controllers = require('../controllers');
 
 router.get('/:resource', (req, res, next) => {
   const resource = req.params.resource;
+  const controller = controllers[resource];
 
-  if (resource === 'zone') {
-    ZoneController.find(req.query, (err, results) => {
-      if (err) {
+  if (controller == null) {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource Request: ' + controller
+    });
+  }
+
+  controller.find(req.query, (err, results) => {
+    if (err) {
         res.json({
           confirmation: 'fail',
           message: err
@@ -19,39 +27,24 @@ router.get('/:resource', (req, res, next) => {
         confirmation: 'success',
         results: results
       });
-    });
-  }
+  });
 });
 
 router.get('/:resource/:id', (req, res, next) => {
   const resource = req.params.resource;
   const id = req.params.id;
-  console.log(id)
 
-  if (resource === 'zone') {
-    ZoneController.findById(id, (err, result) => {
-      if (err) {
-        res.json({
-          confirmation: 'fail',
-          message: 'Not found'
-        });
-        return
-      }
+  const controller = controllers[resource];
 
-      res.json({
-        confirmation: 'success',
-        results: result
-      });
+  if (controller == null) {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource Request: ' + controller
     });
   }
-});
 
-router.post('/:resource', (req, res, next) => {
-  const resource = req.params.resource;
-
-  if (resource === 'zone') {
-    ZoneController.create(req.body, (err, result) => {
-      if (err) {
+  controller.findById(id, (err, result) => {
+    if (err) {
         res.json({
           confirmation: 'fail',
           message: err
@@ -63,8 +56,34 @@ router.post('/:resource', (req, res, next) => {
         confirmation: 'success',
         results: result
       });
+  });
+});
+
+router.post('/:resource', (req, res, next) => {
+  const resource = req.params.resource;
+  const controller = controllers[resource];
+
+  if (controller == null) {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource Request: ' + controller
     });
   }
+
+  controller.create(req.body, (err, result) => {
+    if (err) {
+      res.json({
+        confirmation: 'fail',
+        message: err
+      });
+      return
+    }
+
+    res.json({
+      confirmation: 'success',
+      results: result
+    });
+  });
 });
 
 module.exports = router;

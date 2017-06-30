@@ -12,7 +12,7 @@ module.exports = {
   },
 
   findById: (id, callback) => {
-    Zone.find(id, (err, zone) => {
+    Zone.findById(id, (err, zone) => {
       if (err) {
         callback(err, null);
         return
@@ -40,11 +40,23 @@ module.exports = {
     });
   },
 
-  update: () => {
-
+  update: (id, params, callback) => {
+    Zone.findByIdAndUpdate(id, params, { new:true } , (err, zone) => {
+      if (err) {
+        callback(err, null);
+        return
+      }
+      callback(null, zone);
+    });
   },
 
-  destroy: () => {
-
+  destroy: (id, callback) => {
+    Zone.findOneAndRemove(id, (err) => {
+      if (err) {
+        callback(err, null);
+        return
+      }
+      callback(null, null);
+    });
   }
 }
