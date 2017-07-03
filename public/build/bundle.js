@@ -22468,23 +22468,32 @@ var Zones = function (_Component) {
   function Zones() {
     _classCallCheck(this, Zones);
 
-    return _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
+
+    _this.state = {
+      list: [{ name: 'Zone 1', zipCode: '10012', numComments: 10 }, { name: 'Zone 2', zipCode: '10013', numComments: 20 }, { name: 'Zone 3', zipCode: '10014', numComments: 30 }, { name: 'Zone 4', zipCode: '10015', numComments: 40 }, { name: 'Zone 5', zipCode: '10016', numComments: 50 }]
+    };
+    return _this;
   }
 
   _createClass(Zones, [{
     key: 'render',
     value: function render() {
+      var listItems = this.state.list.map(function (zone, i) {
+        return _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(_Zone2.default, { currentZone: zone })
+        );
+      });
+
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'ol',
           null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(_Zone2.default, null)
-          )
+          listItems
         )
       );
     }
@@ -22530,30 +22539,30 @@ var Zone = function (_Component) {
   }
 
   _createClass(Zone, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
         _react2.default.createElement(
-          "h2",
+          'h2',
           null,
           _react2.default.createElement(
-            "a",
-            { href: "#" },
-            "Zone 1"
+            'a',
+            { style: { textDecoration: 'none', color: 'red' }, href: '#' },
+            this.props.currentZone.name
           )
         ),
         _react2.default.createElement(
-          "span",
+          'span',
           null,
-          "10012"
+          this.props.currentZone.zipCode
         ),
-        _react2.default.createElement("br", null),
+        _react2.default.createElement('br', null),
         _react2.default.createElement(
-          "span",
+          'span',
           null,
-          "10 Comments"
+          this.props.currentZone.numComments
         )
       );
     }
