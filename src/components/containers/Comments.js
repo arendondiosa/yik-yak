@@ -12,11 +12,7 @@ class Comments extends Component {
         timestamp: ''
 
       },
-      list: [
-        {body: 'comment 1', username: 'dtrump', timestamp: '10:30'},
-        {body: 'comment 2', username: 'hclinton', timestamp: '11:00'},
-        {body: 'comment 3', username: 'gjohnson', timestamp: '11:30'}
-      ]
+      list: []
     }
   }
 
@@ -61,7 +57,7 @@ class Comments extends Component {
     });
   }
 
-  render () {
+  render() {
     const commentList = this.state.list.map((comment, i) => {
       return (
         <li key={i}><Comment currentComment={comment} /></li>
@@ -71,9 +67,9 @@ class Comments extends Component {
     return (
       <div>
         <h2>Comments: Zone 1</h2>
-        <div style={styles.comment.commentsBox}> 
+        <div style={styles.comment.commentsBox}>
           <ul style={styles.comment.commentsList}>
-            { commentList }
+            {commentList}
           </ul>
 
           <input onChange={this.updateUsername.bind(this)} className="form-control" type="text" placeholder="Username" /><br />

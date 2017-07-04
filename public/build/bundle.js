@@ -22542,12 +22542,38 @@ var Zones = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
 
     _this.state = {
-      list: [{ name: 'Zone 1', zipCode: '10012', numComments: 10 }, { name: 'Zone 2', zipCode: '10013', numComments: 20 }, { name: 'Zone 3', zipCode: '10014', numComments: 30 }, { name: 'Zone 4', zipCode: '10015', numComments: 40 }, { name: 'Zone 5', zipCode: '10016', numComments: 50 }]
+      zone: {
+        name: '',
+        zipCode: ''
+      },
+      list: []
     };
     return _this;
   }
 
   _createClass(Zones, [{
+    key: 'updateZone',
+    value: function updateZone(event) {
+      console.log(event.target.value);
+      var updatedZone = Object.assign({}, this.state.zone);
+      updatedZone[event.target.id] = event.target.value;
+
+      this.setState({
+        zone: updatedZone
+      });
+    }
+  }, {
+    key: 'addZone',
+    value: function addZone() {
+      console.log('ADD ZONE: ' + JSON.stringify(this.state.zone));
+      var updatedList = Object.assign([], this.state.list);
+      updatedList.push(this.state.zone);
+
+      this.setState({
+        list: updatedList
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var listItems = this.state.list.map(function (zone, i) {
@@ -22565,6 +22591,15 @@ var Zones = function (_Component) {
           'ol',
           null,
           listItems
+        ),
+        _react2.default.createElement('input', { id: 'name', onChange: this.updateZone.bind(this), className: 'form-control', type: 'text', placeholder: 'Name' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('input', { id: 'zipCode', onChange: this.updateZone.bind(this), className: 'form-control', type: 'text', placeholder: 'Zip Code' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.addZone.bind(this), className: 'btn btn-danger' },
+          'Add Zone'
         )
       );
     }
@@ -22738,7 +22773,7 @@ var Comments = function (_Component) {
         timestamp: ''
 
       },
-      list: [{ body: 'comment 1', username: 'dtrump', timestamp: '10:30' }, { body: 'comment 2', username: 'hclinton', timestamp: '11:00' }, { body: 'comment 3', username: 'gjohnson', timestamp: '11:30' }]
+      list: []
     };
     return _this;
   }
